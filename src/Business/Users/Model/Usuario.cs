@@ -24,4 +24,19 @@ public partial class Usuario
     public bool DescontoPlanoDental { get; set; }
 
     public bool DescontoValeTransporte { get; set; }
+
+    public Usuario() { }
+
+    public Usuario(string nome, string sobrenome, string documento, string setor, decimal salarioBruto, DateOnly dataAdmissao, bool descontoPlanoSaude, bool descontoPlanoDental, bool descontoValeTransporte)
+    {
+        Nome = nome;
+        Sobrenome = sobrenome;
+        Documento = documento;
+        Setor = setor;
+        SalarioBruto = salarioBruto;
+        DataAdmissao = dataAdmissao;
+        DescontoPlanoSaude = descontoPlanoSaude;
+        DescontoPlanoDental = descontoPlanoDental;
+        DescontoValeTransporte = descontoValeTransporte;
+    }
 }
