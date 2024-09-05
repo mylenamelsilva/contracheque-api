@@ -1,4 +1,5 @@
-﻿using Business.Users.Interfaces;
+﻿using Business.Base;
+using Business.Users.Interfaces;
 using Business.Users.Model;
 using Business.Users.Records;
 using System;
@@ -19,14 +20,14 @@ namespace Business.Users
             _userRepository = userRepository;
         }
 
-        public int CriarFuncionario(UserRequestDto dto)
+        public Resultado CriarFuncionario(UserRequestDto dto)
         {
             var temPropriedadeNula = VerificarSeTemPropriedadeNula(dto);
 
             if (temPropriedadeNula.Any())
             {
                 // retornar erro com uma lista das propriedades vazias
-                return 0;
+                return Resultado.Falha("Preencha todos os campos corretamente.", temPropriedadeNula);
             }
 
             string[] fmts = new string[] { "dd/MM/yyyy" };
@@ -44,7 +45,7 @@ namespace Business.Users
 
             var resultadoInsert = _userRepository.CriarFuncionario(usuario);
 
-            return resultadoInsert;
+            return resultadoInsert == 1 ? Resultado.Sucesso("Funcionário criado.", resultadoInsert) : Resultado.Falha("Funcionário não criado.", resultadoInsert);
 
         }
 
@@ -60,7 +61,7 @@ namespace Business.Users
                 var valorNuloString = valor is string str && string.IsNullOrEmpty(str);
                 var valorNuloNumero = valor is decimal dec && dec == 0.0m;
 
-                if (!valorNuloString || !valorNuloNumero) { continue; }
+                if (!valorNuloString && !valorNuloNumero) { continue; }
 
                 propriedadesNulas.Add(propriedade.Name.ToString());
             }

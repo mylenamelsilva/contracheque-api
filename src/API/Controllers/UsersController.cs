@@ -20,6 +20,12 @@ namespace API.Controllers
         public IActionResult CriarFuncionario(UserRequestDto dto)
         {
             var resultado = _userService.CriarFuncionario(dto);
+
+            if (resultado.Erro)
+            {
+                return BadRequest(resultado);
+            }
+
             return Ok(resultado);
         }
 
