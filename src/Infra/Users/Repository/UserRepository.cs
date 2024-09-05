@@ -16,8 +16,6 @@ public class UserRepository : IUserRepository
 
     public int CriarFuncionario(Usuario req)
     {
-        using (SqlConnection conn = new(_connection))
-        {
             string query = $@"
                                 INSERT INTO [dbo].[Usuarios]
                                     ([Nome]
@@ -41,6 +39,9 @@ public class UserRepository : IUserRepository
                                     ,@DescontoValeTransporte)
             ";
 
+
+        using (SqlConnection conn = new(_connection))
+        {
             conn.Open();
 
             SqlTransaction transaction = conn.BeginTransaction();
