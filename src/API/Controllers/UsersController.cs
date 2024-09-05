@@ -17,9 +17,27 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public IActionResult CriarFuncionario(UserRequestDto dto)
+        public IActionResult CriarFuncionario([FromBody] UserRequestDto dto)
         {
             var resultado = _userService.CriarFuncionario(dto);
+
+            if (resultado.Erro)
+            {
+                return BadRequest(resultado);
+            }
+
+            if (resultado.Data == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(resultado);
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult MostrarFuncionario([FromRoute] int id)
+        {
+            var resultado = _userService.MostrarFuncionario(id);
 
             if (resultado.Erro)
             {

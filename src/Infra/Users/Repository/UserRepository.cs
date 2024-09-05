@@ -16,7 +16,7 @@ public class UserRepository : IUserRepository
 
     public int CriarFuncionario(Usuario req)
     {
-            string query = $@"
+        string query = $@"
                                 INSERT INTO [dbo].[Usuarios]
                                     ([Nome]
                                     ,[Sobrenome]
@@ -37,7 +37,7 @@ public class UserRepository : IUserRepository
                                     ,@DescontoPlanoSaude
                                     ,@DescontoPlanoDental
                                     ,@DescontoValeTransporte)
-            ";
+         ";
 
 
         using (SqlConnection conn = new(_connection))
@@ -72,6 +72,64 @@ public class UserRepository : IUserRepository
 
             transaction.Commit();
             return linhaAfetada;
+        }
+    }
+
+    public Usuario? RecuperarFuncionario(int id)
+    {
+        string query = $@"
+                        SELECT    
+                             [Id] 
+                            ,[Nome]
+                            ,[Sobrenome]
+                            ,[Documento]
+                            ,[Setor]
+                            ,[SalarioBruto]
+                            ,[DataAdmissao]
+                            ,[DescontoPlanoSaude]
+                            ,[DescontoPlanoDental]
+                            ,[DescontoValeTransporte]
+                       FROM  [dbo].[Usuarios]
+                       WHERE Id = @ID
+         ";
+
+        Usuario usuario = new();
+
+        using (SqlConnection conn = new(_connection))
+        {
+            conn.Open();
+
+            SqlCommand command = new()
+            {
+                Connection = conn,
+                CommandText = query,
+                CommandType = System.Data.CommandType.Text
+            };
+
+            command.Parameters.AddWithValue("@ID", id);
+
+            var resultado = command.ExecuteReader();
+
+            if (!resultado.HasRows)
+            {
+                return null;
+            }
+
+            while (resultado.Read())
+            {
+                usuario.Id = (int)resultado["Id"];
+                usuario.Nome = (string)resultado["Nome"];
+                usuario.Sobrenome = (string)resultado["Sobrenome"];
+                usuario.Documento = (string)resultado["Documento"];
+                usuario.Setor = (string)resultado["Setor"];
+                usuario.SalarioBruto = (decimal)resultado["SalarioBruto"];
+                usuario.DataAdmissao = DateOnly.FromDateTime((DateTime)resultado["DataAdmissao"]);
+                usuario.DescontoPlanoSaude = (bool)resultado["DescontoPlanoSaude"];
+                usuario.DescontoPlanoDental = (bool)resultado["DescontoPlanoDental"];
+                usuario.DescontoValeTransporte = (bool)resultado["DescontoValeTransporte"];
+            }
+
+            return usuario;
         }
     }
 }

@@ -49,6 +49,37 @@ namespace Business.Users
 
         }
 
+        public Resultado MostrarFuncionario(int id)
+        {
+            if (id <= 0)
+            {
+                return Resultado.Falha("Id inválido.");
+            }
+
+            var usuario = _userRepository.RecuperarFuncionario(id);
+            
+            if (usuario == null)
+            {
+                return Resultado.Sucesso(null, null);
+            }
+
+
+            var dataAdmissao = usuario.DataAdmissao.ToString();
+
+            UserResponseDto usuarioDto = new(usuario.Id,
+                                             usuario.Nome,
+                                             usuario.Sobrenome,
+                                             usuario.Documento,
+                                             usuario.Setor,
+                                             usuario.SalarioBruto,
+                                             dataAdmissao,
+                                             usuario.DescontoPlanoSaude,                                
+                                             usuario.DescontoPlanoDental,                                
+                                             usuario.DescontoValeTransporte);
+
+            return Resultado.Sucesso(null, usuarioDto);
+        }
+
         private List<string> VerificarSeTemPropriedadeNula(object obj)
         {
             var propriedades = obj.GetType().GetProperties();
