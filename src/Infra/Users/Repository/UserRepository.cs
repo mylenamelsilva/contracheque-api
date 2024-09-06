@@ -75,6 +75,40 @@ public class UserRepository : IUserRepository
         }
     }
 
+    public bool ExisteFuncionario(string documento)
+    {
+        string query = $@"
+                        SELECT    
+                              [Id]
+                             ,[Documento] 
+                       FROM  [dbo].[Usuarios]
+                       WHERE Documento = @DOCUMENTO
+         ";
+
+        using (SqlConnection conn = new(_connection))
+        {
+            conn.Open();
+
+            SqlCommand command = new()
+            {
+                Connection = conn,
+                CommandText = query,
+                CommandType = System.Data.CommandType.Text
+            };
+
+            command.Parameters.AddWithValue("@DOCUMENTO", documento);
+
+            var resultado = command.ExecuteReader();
+
+            if (!resultado.HasRows)
+            {
+                return false;
+            }
+
+            return true;
+        }
+    }
+
     public Usuario? RecuperarFuncionario(int id)
     {
         string query = $@"

@@ -6,4 +6,5 @@ public interface IUserRepository
 {
     public int CriarFuncionario(Usuario req);
     public Usuario? RecuperarFuncionario(int id);
+    public bool ExisteFuncionario(string documento);
 }

@@ -26,8 +26,12 @@ namespace Business.Users
 
             if (temPropriedadeNula.Any())
             {
-                // retornar erro com uma lista das propriedades vazias
                 return Resultado.Falha("Preencha todos os campos corretamente.", temPropriedadeNula);
+            }
+
+            if (VerificarSeJaExisteFuncionario(dto.Documento))
+            {
+                return Resultado.Falha("Já existe um funcionário com esse documento", dto);
             }
 
             string[] fmts = new string[] { "dd/MM/yyyy" };
@@ -46,7 +50,6 @@ namespace Business.Users
             var resultadoInsert = _userRepository.CriarFuncionario(usuario);
 
             return resultadoInsert == 1 ? Resultado.Sucesso("Funcionário criado.", resultadoInsert) : Resultado.Falha("Funcionário não criado.", resultadoInsert);
-
         }
 
         public Resultado MostrarFuncionario(int id)
@@ -98,6 +101,11 @@ namespace Business.Users
             }
 
             return propriedadesNulas;
+        }
+
+        private bool VerificarSeJaExisteFuncionario(string documento)
+        {
+            return _userRepository.ExisteFuncionario(documento);
         }
     }
 }
