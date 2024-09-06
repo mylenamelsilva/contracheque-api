@@ -4,6 +4,7 @@ using Business.Users.Model;
 using Business.Users.Records;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -68,13 +69,14 @@ namespace Business.Users
 
 
             var dataAdmissao = usuario.DataAdmissao.ToString();
+            var salarioBrutoBr = string.Format(CultureInfo.GetCultureInfo("pt-BR"), "{0:C}", usuario.SalarioBruto);
 
             UserResponseDto usuarioDto = new(usuario.Id,
                                              usuario.Nome,
                                              usuario.Sobrenome,
                                              usuario.Documento,
                                              usuario.Setor,
-                                             usuario.SalarioBruto,
+                                             salarioBrutoBr,
                                              dataAdmissao,
                                              usuario.DescontoPlanoSaude,                                
                                              usuario.DescontoPlanoDental,                                

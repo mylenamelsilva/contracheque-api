@@ -11,7 +11,7 @@ namespace Business.Users.Records
                                     string Sobrenome,
                                     string Documento,
                                     string Setor,
-                                    decimal SalarioBruto,
+                                    string SalarioBruto,
                                     string DataAdmissao,
                                     bool DescontoPlanoSaude,
                                     bool DescontoPlanoDental,
