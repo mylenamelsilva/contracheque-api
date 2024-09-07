@@ -1,5 +1,6 @@
 ﻿using Business.Users.Interfaces;
 using Business.Users.Model;
+using Business.Users.Records;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +13,56 @@ public class UserRepository : IUserRepository
     public UserRepository(DatabaseContext context)
     {
         _connection = context.Database.GetConnectionString();
+    }
+
+    public int AtualizarFuncionario(int id, Usuario req)
+    {
+        string query = $@"
+                                UPDATE [dbo].[Usuarios]
+                                    SET [Nome] = @NOME
+                                    ,[Sobrenome] = @Sobrenome
+                                    ,[Setor] = @Setor
+                                    ,[SalarioBruto] = @SalarioBruto
+                                    ,[DescontoPlanoSaude] = @DescontoPlanoSaude
+                                    ,[DescontoPlanoDental] = @DescontoPlanoDental
+                                    ,[DescontoValeTransporte] = @DescontoValeTransporte
+                                WHERE ID = @ID
+         ";
+
+
+        using (SqlConnection conn = new(_connection))
+        {
+            conn.Open();
+
+            SqlTransaction transaction = conn.BeginTransaction();
+            SqlCommand command = new()
+            {
+                Connection = conn,
+                CommandText = query,
+                CommandType = System.Data.CommandType.Text,
+                Transaction = transaction
+            };
+
+            command.Parameters.AddWithValue("@Nome", req.Nome);
+            command.Parameters.AddWithValue("@Sobrenome", req.Sobrenome);
+            command.Parameters.AddWithValue("@Setor", req.Setor);
+            command.Parameters.AddWithValue("@SalarioBruto", req.SalarioBruto);
+            command.Parameters.AddWithValue("@DescontoPlanoSaude", req.DescontoPlanoSaude);
+            command.Parameters.AddWithValue("@DescontoPlanoDental", req.DescontoPlanoDental);
+            command.Parameters.AddWithValue("@DescontoValeTransporte", req.DescontoValeTransporte);
+            command.Parameters.AddWithValue("@ID", id);
+
+            var linhaAfetada = command.ExecuteNonQuery();
+
+            if (linhaAfetada != 1)
+            {
+                transaction.Rollback();
+                return linhaAfetada;
+            }
+
+            transaction.Commit();
+            return linhaAfetada;
+        }
     }
 
     public int CriarFuncionario(Usuario req)

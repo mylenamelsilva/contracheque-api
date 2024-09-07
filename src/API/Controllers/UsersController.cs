@@ -26,11 +26,6 @@ namespace API.Controllers
                 return BadRequest(resultado);
             }
 
-            if (resultado.Data == null)
-            {
-                return NotFound();
-            }
-
             return Ok(resultado);
         }
 
@@ -44,8 +39,25 @@ namespace API.Controllers
                 return BadRequest(resultado);
             }
 
+            if (resultado.Data == null)
+            {
+                return NotFound();
+            }
+
             return Ok(resultado);
         }
 
+        [HttpPut("{id}")]
+        public IActionResult AtualizarInformacoesFuncionario([FromRoute] int id, [FromBody] AtualizarInformacoesRequestDto dto)
+        {
+            var resultado = _userService.AtualizarFuncionario(id, dto);
+
+            if (resultado.Erro)
+            {
+                return BadRequest(resultado);
+            }
+
+            return Ok(resultado);
+        }
     }
 }

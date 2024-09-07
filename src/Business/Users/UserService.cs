@@ -109,5 +109,37 @@ namespace Business.Users
         {
             return _userRepository.ExisteFuncionario(documento);
         }
+
+        public Resultado AtualizarFuncionario(int id, AtualizarInformacoesRequestDto dto)
+        {
+            var temPropriedadeNula = VerificarSeTemPropriedadeNula(dto);
+
+            if (temPropriedadeNula.Any())
+            {
+                return Resultado.Falha("Preencha todos os campos corretamente.", temPropriedadeNula);
+            }
+
+            var existeFuncionario = _userRepository.RecuperarFuncionario(id);
+
+            if (existeFuncionario == null)
+            {
+                return Resultado.Falha("Não existe funcionário com esse id.", dto);
+            }
+
+            Usuario usuario = new(dto.Nome,
+                                              dto.Sobrenome,
+                                              existeFuncionario.Documento,
+                                              dto.Setor,
+                                              dto.SalarioBruto,
+                                              existeFuncionario.DataAdmissao,
+                                              dto.DescontoPlanoSaude,
+                                              dto.DescontoPlanoDental,
+                                              dto.DescontoValeTransporte);
+
+            var resultadoUpdate = _userRepository.AtualizarFuncionario(id, usuario);
+
+            return resultadoUpdate == 1 ? Resultado.Sucesso("Funcionário atualizado.", resultadoUpdate) : Resultado.Falha("Funcionário não atualizado.", resultadoUpdate);
+
+        }
     }
 }
