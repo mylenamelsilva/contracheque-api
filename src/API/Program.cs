@@ -1,3 +1,4 @@
+using Business.Base;
 using Business.Users;
 using Business.Users.Interfaces;
 using Infra;
@@ -13,7 +14,10 @@ namespace API
 
             // Add services to the container.
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers(options =>
+            {
+                options.Filters.Add<ExcecaoFiltro>();
+            });
             builder.Services.AddDbContext<DatabaseContext>();
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
