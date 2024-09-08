@@ -16,6 +16,11 @@ namespace API.Controllers
             _userService = userService;
         }
 
+        /// <summary>
+        ///  Cria um novo funcionário na base de dados
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns>Model Resultado {Erro, Mensagem, Data}</returns>
         [HttpPost]
         public IActionResult CriarFuncionario([FromBody] UserRequestDto dto)
         {
@@ -29,6 +34,11 @@ namespace API.Controllers
             return Ok(resultado);
         }
 
+        /// <summary>
+        ///  Busca um funcionário na base de dados
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Model Resultado {Erro, Mensagem, Data}</returns>
         [HttpGet("{id}")]
         public IActionResult MostrarFuncionario([FromRoute] int id)
         {
@@ -47,6 +57,11 @@ namespace API.Controllers
             return Ok(resultado);
         }
 
+        /// <summary>
+        ///  Altera um funcionário na base de dados
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns>Model Resultado {Erro, Mensagem, Data}</returns>
         [HttpPut("{id}")]
         public IActionResult AtualizarInformacoesFuncionario([FromRoute] int id, [FromBody] AtualizarInformacoesRequestDto dto)
         {
@@ -60,6 +75,11 @@ namespace API.Controllers
             return Ok(resultado);
         }
 
+        /// <summary>
+        ///  Remove funcionário na base de dados
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Model Resultado {Erro, Mensagem, Data}</returns>
         [HttpDelete("{id}")]
         public IActionResult RemoverFuncionario([FromRoute] int id)
         {

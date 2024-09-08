@@ -23,7 +23,11 @@ namespace API
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(options =>
+            {
+                var filePath = Path.Combine(AppContext.BaseDirectory, "API.xml");
+                options.IncludeXmlComments(filePath);
+            });
 
             var app = builder.Build();
 
