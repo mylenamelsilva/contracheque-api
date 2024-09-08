@@ -8,5 +8,6 @@ public interface IUserService
 {
     public Resultado CriarFuncionario(UserRequestDto dto);
     public Resultado MostrarFuncionario(int id);
+    public Resultado RemoverFuncionario(int id);
     public Resultado AtualizarFuncionario(int id, AtualizarInformacoesRequestDto dto);
 }

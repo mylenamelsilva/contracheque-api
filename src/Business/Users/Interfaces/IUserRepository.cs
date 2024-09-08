@@ -9,4 +9,5 @@ public interface IUserRepository
     public Usuario? RecuperarFuncionario(int id);
     public bool ExisteFuncionario(string documento);
     public int AtualizarFuncionario(int id, Usuario req);
+    public int RemoverFuncionario(int id);
 }

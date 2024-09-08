@@ -30,7 +30,7 @@ namespace Business.Users
                 return Resultado.Falha("Preencha todos os campos corretamente.", temPropriedadeNula);
             }
 
-            if (VerificarSeJaExisteFuncionario(dto.Documento))
+            if (VerificarSeJaExisteDocumento(dto.Documento))
             {
                 return Resultado.Falha("Já existe um funcionário com esse documento", dto);
             }
@@ -85,31 +85,6 @@ namespace Business.Users
             return Resultado.Sucesso(null, usuarioDto);
         }
 
-        private List<string> VerificarSeTemPropriedadeNula(object obj)
-        {
-            var propriedades = obj.GetType().GetProperties();
-            List<string> propriedadesNulas = new();
-
-            foreach (var propriedade in propriedades)
-            {
-                var valor = propriedade.GetValue(obj);
-
-                var valorNuloString = valor is string str && string.IsNullOrEmpty(str);
-                var valorNuloNumero = valor is decimal dec && dec == 0.0m;
-
-                if (!valorNuloString && !valorNuloNumero) { continue; }
-
-                propriedadesNulas.Add(propriedade.Name.ToString());
-            }
-
-            return propriedadesNulas;
-        }
-
-        private bool VerificarSeJaExisteFuncionario(string documento)
-        {
-            return _userRepository.ExisteFuncionario(documento);
-        }
-
         public Resultado AtualizarFuncionario(int id, AtualizarInformacoesRequestDto dto)
         {
             var temPropriedadeNula = VerificarSeTemPropriedadeNula(dto);
@@ -141,5 +116,48 @@ namespace Business.Users
             return resultadoUpdate == 1 ? Resultado.Sucesso("Funcionário atualizado.", resultadoUpdate) : Resultado.Falha("Funcionário não atualizado.", resultadoUpdate);
 
         }
+
+        public Resultado RemoverFuncionario(int id)
+        {
+
+            var existeFuncionario = _userRepository.RecuperarFuncionario(id);
+
+            if (existeFuncionario == null)
+            {
+                return Resultado.Falha("Não existe funcionário com esse id.", id);
+            }
+
+            var resultadoDelete = _userRepository.RemoverFuncionario(id);
+
+            return resultadoDelete == 1 ? Resultado.Sucesso("Funcionário removido.", resultadoDelete) : Resultado.Falha("Funcionário não removido.", resultadoDelete);
+        }
+         
+        #region métodos privados
+
+        private List<string> VerificarSeTemPropriedadeNula(object obj)
+        {
+            var propriedades = obj.GetType().GetProperties();
+            List<string> propriedadesNulas = new();
+
+            foreach (var propriedade in propriedades)
+            {
+                var valor = propriedade.GetValue(obj);
+
+                var valorNuloString = valor is string str && string.IsNullOrEmpty(str);
+                var valorNuloNumero = valor is decimal dec && dec == 0.0m;
+
+                if (!valorNuloString && !valorNuloNumero) { continue; }
+
+                propriedadesNulas.Add(propriedade.Name.ToString());
+            }
+
+            return propriedadesNulas;
+        }
+
+        private bool VerificarSeJaExisteDocumento(string documento)
+        {
+            return _userRepository.ExisteFuncionario(documento);
+        }
+        #endregion
     }
 }

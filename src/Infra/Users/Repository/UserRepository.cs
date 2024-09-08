@@ -217,4 +217,38 @@ public class UserRepository : IUserRepository
             return usuario;
         }
     }
+
+    public int RemoverFuncionario(int id)
+    {
+        string query = $@"
+                            DELETE FROM [dbo].[Usuarios] WHERE Id = @ID
+         ";
+
+        using (SqlConnection conn = new(_connection))
+        {
+            conn.Open();
+
+            SqlTransaction transaction = conn.BeginTransaction();
+            SqlCommand command = new()
+            {
+                Connection = conn,
+                CommandText = query,
+                CommandType = System.Data.CommandType.Text,
+                Transaction = transaction
+            };
+
+            command.Parameters.AddWithValue("@ID", id);
+
+            var linhaAfetada = command.ExecuteNonQuery();
+
+            if (linhaAfetada != 1)
+            {
+                transaction.Rollback();
+                return linhaAfetada;
+            }
+
+            transaction.Commit();
+            return linhaAfetada;
+        }
+    }
 }

@@ -59,5 +59,18 @@ namespace API.Controllers
 
             return Ok(resultado);
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult RemoverFuncionario([FromRoute] int id)
+        {
+            var resultado = _userService.RemoverFuncionario(id);
+
+            if (resultado.Erro)
+            {
+                return BadRequest(resultado);
+            }
+
+            return Ok(resultado);
+        }
     }
 }
