@@ -1,4 +1,8 @@
+using Business.Base;
+using Business.Users;
+using Business.Users.Interfaces;
 using Infra;
+using Infra.Users.Repository;
 
 namespace API
 {
@@ -10,11 +14,20 @@ namespace API
 
             // Add services to the container.
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers(options =>
+            {
+                options.Filters.Add<ExcecaoFiltro>();
+            });
             builder.Services.AddDbContext<DatabaseContext>();
+            builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(options =>
+            {
+                var filePath = Path.Combine(AppContext.BaseDirectory, "API.xml");
+                options.IncludeXmlComments(filePath);
+            });
 
             var app = builder.Build();
 

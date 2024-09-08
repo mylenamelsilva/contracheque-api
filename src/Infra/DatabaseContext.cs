@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Business.Users.Model;
+﻿using Business.Users.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -27,12 +25,11 @@ public partial class DatabaseContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("PK__Usuarios__3214EC07CC19B0EF");
 
-            entity.HasIndex(e => e.Documento, "UQ__Usuarios__AF73706D90F4C10C").IsUnique();
+            entity.HasIndex(e => e.Documento, "UQ__Usuarios_Documento").IsUnique();
 
             entity.Property(e => e.Documento)
                 .HasMaxLength(11)
-                .IsUnicode(false)
-                .IsFixedLength();
+                .IsUnicode(false);
             entity.Property(e => e.Nome)
                 .HasMaxLength(255)
                 .IsUnicode(false);
