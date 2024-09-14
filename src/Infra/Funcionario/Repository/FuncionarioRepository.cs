@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Users.Repository;
 
-public class UserRepository : IUserRepository
+public class FuncionarioRepository : IFuncionarioRepository
 {
     private string _connection;
 
-    public UserRepository(DatabaseContext context)
+    public FuncionarioRepository(DatabaseContext context)
     {
         _connection = context.Database.GetConnectionString();
     }

@@ -3,7 +3,7 @@ using Business.Users.Records;
 
 namespace Business.Users.Interfaces;
 
-public interface IUserRepository
+public interface IFuncionarioRepository
 {
     public int CriarFuncionario(Usuario req);
     public Usuario? RecuperarFuncionario(int id);

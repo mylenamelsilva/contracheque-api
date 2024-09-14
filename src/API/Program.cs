@@ -19,8 +19,8 @@ namespace API
                 options.Filters.Add<ExcecaoFiltro>();
             });
             builder.Services.AddDbContext<DatabaseContext>();
-            builder.Services.AddScoped<IUserService, UserService>();
-            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IFuncionarioService, FuncionarioService>();
+            builder.Services.AddScoped<IFuncionarioRepository, FuncionarioRepository>();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(options =>

@@ -7,11 +7,11 @@ namespace API.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class FuncionariosController : ControllerBase
     {
-        private readonly IUserService _userService;
+        private readonly IFuncionarioService _userService;
 
-        public UsersController(IUserService userService)
+        public FuncionariosController(IFuncionarioService userService)
         {
             _userService = userService;
         }

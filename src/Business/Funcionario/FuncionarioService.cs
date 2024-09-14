@@ -12,11 +12,11 @@ using System.Threading.Tasks;
 
 namespace Business.Users
 {
-    public class UserService : IUserService
+    public class FuncionarioService : IFuncionarioService
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IFuncionarioRepository _userRepository;
 
-        public UserService(IUserRepository userRepository)
+        public FuncionarioService(IFuncionarioRepository userRepository)
         {
             _userRepository = userRepository;
         }
