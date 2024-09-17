@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Business.Contracheque.Models
 {
-    public class DescontoInss
+    public class DescontoInss : DescontoBase
     {
-        private const double PrimeiraFaixaSalarial = 0.075;
-        private const double SegundaFaixaSalarial = 0.09;
-        private const double TerceiraFaixaSalarial = 0.12;
-        private const double QuartaFaixaSalarial = 0.14;
+        protected override double PrimeiraFaixaSalarial => 0.075;
+        protected override double SegundaFaixaSalarial => 0.09;
+        protected override double TerceiraFaixaSalarial => 0.12;
+        protected override double QuartaFaixaSalarial => 0.14;
 
-        public static decimal CalcularDescontoInss(decimal salarioBruto)
+        public decimal CalcularDescontoInss(decimal salarioBruto)
         {
             switch (salarioBruto)
             {
@@ -30,27 +30,27 @@ namespace Business.Contracheque.Models
             }
         }
 
-        private static decimal DescontoPrimeiraFaixaSalarial(decimal salarioBruto)
+        protected override decimal DescontoPrimeiraFaixaSalarial(decimal salarioBruto)
         {
             return salarioBruto * (decimal)PrimeiraFaixaSalarial;
         }
 
-        private static decimal DescontoSegundaFaixaSalarial(decimal salarioBruto)
+        protected override decimal DescontoQuartaFaixaSalarial(decimal salarioBruto)
+        {
+            const decimal valorDeducao = 181.18m;
+            return (salarioBruto * (decimal)QuartaFaixaSalarial) - valorDeducao;
+        }
+
+        protected override decimal DescontoSegundaFaixaSalarial(decimal salarioBruto)
         {
             const decimal valorDeducao = 21.18m;
             return (salarioBruto * (decimal)SegundaFaixaSalarial) - valorDeducao;
         }
 
-        private static decimal DescontoTerceiraFaixaSalarial(decimal salarioBruto)
+        protected override decimal DescontoTerceiraFaixaSalarial(decimal salarioBruto)
         {
             const decimal valorDeducao = 101.18m;
             return (salarioBruto * (decimal)TerceiraFaixaSalarial) - valorDeducao;
-        }
-
-        private static decimal DescontoQuartaFaixaSalarial(decimal salarioBruto)
-        {
-            const decimal valorDeducao = 181.18m;
-            return (salarioBruto * (decimal)QuartaFaixaSalarial) - valorDeducao;
         }
     }
 }
