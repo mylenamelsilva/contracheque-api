@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Business.Contracheque.Models
+namespace Business.Desconto.Services
 {
-    public class DescontoInss : DescontoBase
+    public class DescontoInssService : DescontoBase
     {
         protected override double PrimeiraFaixaSalarial => 0.075;
         protected override double SegundaFaixaSalarial => 0.09;
@@ -38,19 +38,19 @@ namespace Business.Contracheque.Models
         protected override decimal DescontoQuartaFaixaSalarial(decimal salarioBruto)
         {
             const decimal valorDeducao = 181.18m;
-            return (salarioBruto * (decimal)QuartaFaixaSalarial) - valorDeducao;
+            return salarioBruto * (decimal)QuartaFaixaSalarial - valorDeducao;
         }
 
         protected override decimal DescontoSegundaFaixaSalarial(decimal salarioBruto)
         {
             const decimal valorDeducao = 21.18m;
-            return (salarioBruto * (decimal)SegundaFaixaSalarial) - valorDeducao;
+            return salarioBruto * (decimal)SegundaFaixaSalarial - valorDeducao;
         }
 
         protected override decimal DescontoTerceiraFaixaSalarial(decimal salarioBruto)
         {
             const decimal valorDeducao = 101.18m;
-            return (salarioBruto * (decimal)TerceiraFaixaSalarial) - valorDeducao;
+            return salarioBruto * (decimal)TerceiraFaixaSalarial - valorDeducao;
         }
     }
 }
