@@ -1,4 +1,7 @@
 using Business.Base;
+using Business.Contracheque;
+using Business.Contracheque.Interfaces;
+using Business.Desconto.Services;
 using Business.Users;
 using Business.Users.Interfaces;
 using Infra;
@@ -21,6 +24,10 @@ namespace API
             builder.Services.AddDbContext<DatabaseContext>();
             builder.Services.AddScoped<IFuncionarioService, FuncionarioService>();
             builder.Services.AddScoped<IFuncionarioRepository, FuncionarioRepository>();
+            builder.Services.AddScoped<DescontoInssService>();
+            builder.Services.AddScoped<DescontoIrpfService>();
+            builder.Services.AddScoped<IContrachequeService, ContrachequeService>();
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(options =>

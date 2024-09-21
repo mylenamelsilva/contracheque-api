@@ -17,9 +17,9 @@ namespace Business.Contracheque.Models
 
         public TipoLancamentoEnum Tipo { get; set; }
         public string Descricao { get; set; }
-        public decimal Valor { get; set; }
+        public string Valor { get; set; }
 
-        public Lancamento(TipoLancamentoEnum tipo, string descricao, decimal valor)
+        public Lancamento(TipoLancamentoEnum tipo, string descricao, string valor)
         {
             Tipo = tipo;
             Descricao = descricao;
