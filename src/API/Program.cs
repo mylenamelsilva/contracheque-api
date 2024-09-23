@@ -26,6 +26,7 @@ namespace API
             builder.Services.AddScoped<IFuncionarioRepository, FuncionarioRepository>();
             builder.Services.AddScoped<DescontoInssService>();
             builder.Services.AddScoped<DescontoIrpfService>();
+            builder.Services.AddScoped<DescontoPlanosService>();
             builder.Services.AddScoped<IContrachequeService, ContrachequeService>();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

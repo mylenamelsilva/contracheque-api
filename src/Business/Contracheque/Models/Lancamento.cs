@@ -14,6 +14,7 @@ namespace Business.Contracheque.Models
         public static readonly string DescricaoValeTransporte = "Vale Transporte mês";
         public static readonly string DescricaoPlanoDental = "Plano Dental mês";
         public static readonly string DescricaoPlanoSaude = "Plano de Saúde mês";
+        public static readonly string DescricaoSalarioBruto = "Salário mês";
 
         public TipoLancamentoEnum Tipo { get; set; }
         public string Descricao { get; set; }

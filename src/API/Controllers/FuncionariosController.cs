@@ -1,4 +1,5 @@
-﻿using Business.Users;
+﻿using Business.Contracheque.Interfaces;
+using Business.Users;
 using Business.Users.Interfaces;
 using Business.Users.Records;
 using Microsoft.AspNetCore.Mvc;
@@ -10,9 +11,11 @@ namespace API.Controllers
     public class FuncionariosController : ControllerBase
     {
         private readonly IFuncionarioService _userService;
+        private readonly IContrachequeService _contrachequeService;
 
-        public FuncionariosController(IFuncionarioService userService)
+        public FuncionariosController(IFuncionarioService userService, IContrachequeService contrachequeService)
         {
+            _contrachequeService = contrachequeService;
             _userService = userService;
         }
 
@@ -43,6 +46,24 @@ namespace API.Controllers
         public IActionResult MostrarFuncionario([FromRoute] int id)
         {
             var resultado = _userService.MostrarFuncionario(id);
+
+            if (resultado.Erro)
+            {
+                return BadRequest(resultado);
+            }
+
+            if (resultado.Data == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(resultado);
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult Extrato([FromRoute] int id)
+        {
+            var resultado = _contrachequeService.ExtratoMensal(id);
 
             if (resultado.Erro)
             {

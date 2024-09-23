@@ -14,7 +14,23 @@ namespace Business.Desconto.Services
 
         public decimal CalcularDescontoValeTransporte(decimal salarioBruto)
         {
+            if (salarioBruto < 1500)
+            {
+                return 0.0m;
+            }
+
             return salarioBruto * (decimal)DescontoValeTransportePorcentagem;
         }
+
+        public decimal CalcularDescontoPlanoDental(decimal salarioBruto)
+        {
+            return DescontoPlanoDental;
+        }
+
+        public decimal CalcularDescontoPlanoSaude(decimal salarioBruto)
+        {
+            return DescontoPlanoSaude;
+        }
+
     }
 }
