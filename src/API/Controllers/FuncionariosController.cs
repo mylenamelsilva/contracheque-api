@@ -1,4 +1,5 @@
-﻿using Business.Users;
+﻿using Business.Contracheque.Interfaces;
+using Business.Users;
 using Business.Users.Interfaces;
 using Business.Users.Records;
 using Microsoft.AspNetCore.Mvc;
@@ -7,11 +8,11 @@ namespace API.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class FuncionariosController : ControllerBase
     {
-        private readonly IUserService _userService;
+        private readonly IFuncionarioService _userService;
 
-        public UsersController(IUserService userService)
+        public FuncionariosController(IFuncionarioService userService)
         {
             _userService = userService;
         }

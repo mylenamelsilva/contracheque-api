@@ -1,4 +1,5 @@
 ﻿using Business.Base;
+using Business.Funcionario.Records;
 using Business.Users.Interfaces;
 using Business.Users.Model;
 using Business.Users.Records;
@@ -12,11 +13,11 @@ using System.Threading.Tasks;
 
 namespace Business.Users
 {
-    public class UserService : IUserService
+    public class FuncionarioService : IFuncionarioService
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IFuncionarioRepository _userRepository;
 
-        public UserService(IUserRepository userRepository)
+        public FuncionarioService(IFuncionarioRepository userRepository)
         {
             _userRepository = userRepository;
         }
@@ -131,7 +132,22 @@ namespace Business.Users
 
             return resultadoDelete == 1 ? Resultado.Sucesso("Funcionário removido.", resultadoDelete) : Resultado.Falha("Funcionário não removido.", resultadoDelete);
         }
-         
+
+        public FuncionarioInformacaoExtratoDto? RetornarInformacoesExtrato(int id)
+        {
+            var funcionario = _userRepository.RecuperarFuncionario(id);
+
+            if (funcionario == null)
+            {
+                return null;
+            }
+
+            return new FuncionarioInformacaoExtratoDto(funcionario.SalarioBruto,
+                                                       funcionario.DescontoPlanoSaude,
+                                                       funcionario.DescontoPlanoDental,
+                                                       funcionario.DescontoValeTransporte);
+        }
+
         #region métodos privados
 
         private List<string> VerificarSeTemPropriedadeNula(object obj)
