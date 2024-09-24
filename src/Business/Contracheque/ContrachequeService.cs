@@ -34,7 +34,7 @@ namespace Business.Contracheque
             {
                 return Resultado.Falha("Funcionário com esse ID não encontrado", id);
             }
-            var mesAtual = DateTime.Today.ToString("dd/MM/yyyy");
+            var mesAtual = DateTime.Today.ToString("MMMM", new CultureInfo("pt-BR"));
             var salarioBruto = funcionario.SalarioBruto;
 
             var descontoInss = _inssService.CalcularDescontoInss(salarioBruto);
