@@ -1,4 +1,5 @@
-﻿using Business.Contracheque.Interfaces;
+﻿using Business.Base;
+using Business.Contracheque.Interfaces;
 using Business.Users;
 using Business.Users.Interfaces;
 using Business.Users.Records;
@@ -7,6 +8,10 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers
 {
     [Route("api/[controller]/[action]")]
+    [Produces("application/json")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Resultado))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Resultado))]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ApiController]
     public class FuncionariosController : ControllerBase
     {
@@ -20,7 +25,7 @@ namespace API.Controllers
         /// <summary>
         ///  Cria um novo funcionário na base de dados
         /// </summary>
-        /// <param name="dto"></param>
+        /// <param name="dto">Objeto com as informações do funcionário</param>
         /// <returns>Model Resultado {Erro, Mensagem, Data}</returns>
         [HttpPost]
         public IActionResult CriarFuncionario([FromBody] UserRequestDto dto)
@@ -38,8 +43,9 @@ namespace API.Controllers
         /// <summary>
         ///  Busca um funcionário na base de dados
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Id do funcionário</param>
         /// <returns>Model Resultado {Erro, Mensagem, Data}</returns>
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{id}")]
         public IActionResult MostrarFuncionario([FromRoute] int id)
         {
@@ -61,7 +67,8 @@ namespace API.Controllers
         /// <summary>
         ///  Altera um funcionário na base de dados
         /// </summary>
-        /// <param name="dto"></param>
+        /// <param name="dto">Objeto com as informações do funcionário</param>
+        /// <param name="id">Id do funcionário</param>
         /// <returns>Model Resultado {Erro, Mensagem, Data}</returns>
         [HttpPut("{id}")]
         public IActionResult AtualizarInformacoesFuncionario([FromRoute] int id, [FromBody] AtualizarInformacoesRequestDto dto)
@@ -79,7 +86,7 @@ namespace API.Controllers
         /// <summary>
         ///  Remove funcionário na base de dados
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Id do funcionário</param>
         /// <returns>Model Resultado {Erro, Mensagem, Data}</returns>
         [HttpDelete("{id}")]
         public IActionResult RemoverFuncionario([FromRoute] int id)

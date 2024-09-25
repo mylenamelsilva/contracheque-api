@@ -6,6 +6,7 @@ using Business.Users;
 using Business.Users.Interfaces;
 using Infra;
 using Infra.Users.Repository;
+using System.Text.Json.Serialization;
 
 namespace API
 {
@@ -20,7 +21,11 @@ namespace API
             builder.Services.AddControllers(options =>
             {
                 options.Filters.Add<ExcecaoFiltro>();
+            }).AddJsonOptions(jsonOptions =>
+            {
+                jsonOptions.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
             });
+
             builder.Services.AddDbContext<DatabaseContext>();
             builder.Services.AddScoped<IFuncionarioService, FuncionarioService>();
             builder.Services.AddScoped<IFuncionarioRepository, FuncionarioRepository>();
