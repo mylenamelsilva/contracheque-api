@@ -2,7 +2,23 @@
 
 A API permite visualizar o extrato de pagamento mensal de um funcionário, incluindo salários, descontos e lançamentos financeiros.
 
+Você pode ver o funcionamento da API [clicando aqui](https://contracheque-app.azurewebsites.net/swagger)
+
+![Imagem da documentação da API no Swagger](https://github.com/user-attachments/assets/b61ce38c-7ade-439e-aa17-7f14821f7932)
+
+
 ---
+
+## Tecnologias utilizadas
+
+- **.NET 8** com uso do **ADO.NET** puro para interação direta com o banco de dados.
+- **Secret Manager**: Durante o desenvolvimento local, usei o User Secrets para armazenar de forma segura as configurações sensíveis, como strings de conexão.
+- **SQL Server**: Utilizei o SQL Server como banco de dados localmente.
+- **Azure Web App**: Utilizei o Azure Web App para hospedar e gerenciar a API na nuvem da Azure.
+- **Azure SQL Database**: Após o desenvolvimento, migrei o banco de dados para o Azure SQL Database, permitindo que a aplicação rodasse em um ambiente na nuvem.
+- **Azure Key Vault**: No ambiente de produção, estou utilizando o Azure Key Vault para armazenar de forma segura as chaves, segredos e strings de conexão.
+
+----
 
 ## Entidades
 
@@ -92,7 +108,7 @@ A aplicação utiliza um padrão de resposta para todos os endpoints.
 - **Endpoint**: `{URL_AMBIENTE}/api/Extratos/ExtratoMensal/{id}`
 - **Método**: GET
 - **Parâmetros**:
-  - **Id**: Identificador único do funcionário.
+  - **id**: Identificador único do funcionário.
 
 #### Exemplo de Retorno:
 
@@ -129,3 +145,93 @@ A aplicação utiliza um padrão de resposta para todos os endpoints.
     ]
   }
 }
+```
+
+### Criar funcionário
+
+- **Endpoint**: `{URL_AMBIENTE}/api/Funcionarios/CriarFuncionario`
+- **Método**: POST
+- **Parâmetros**:
+  - **nome**: O primeiro nome do funcionário. (Tipo: `string`)
+  - **sobrenome**: O sobrenome do funcionário. (Tipo: `string`)
+  - **documento**: O número do documento de identificação do funcionário (exemplo: CPF ou RG). (Tipo: `string`)
+  - **setor**: O setor de trabalho do funcionário (exemplo: TI, RH, Vendas, etc.). (Tipo: `string`)
+  - **salarioBruto**: O salário bruto do funcionário. (Tipo: `decimal`)
+  - **dataAdmissao**: A data em que o funcionário foi admitido na empresa. (Tipo: `string`, formato: `dd/MM/yyyy`)
+  - **descontoPlanoSaude**: Indica se o funcionário terá desconto do plano de saúde. (Tipo: `boolean`)
+  - **descontoPlanoDental**: Indica se o funcionário terá desconto do plano dental. (Tipo: `boolean`)
+  - **descontoValeTransporte**: Indica se o funcionário terá desconto do vale-transporte. (Tipo: `boolean`)
+
+#### Exemplo de request:
+
+```json
+{
+  "nome": "Lucas",
+  "sobrenome": "Paulo",
+  "documento": "222222322222",
+  "setor": "TI",
+  "salarioBruto": 4590,
+  "dataAdmissao": "11/03/2024",
+  "descontoPlanoSaude": true,
+  "descontoPlanoDental": false,
+  "descontoValeTransporte": true
+}
+```
+
+#### Exemplo de response:
+
+```json
+{
+  "erro": false,
+  "mensagem": "Funcionário criado.",
+  "data": 6
+}
+```
+
+O valor no data é o id gerado para poder usar no endpoint de extrato.
+
+----
+
+## Endpoints secundários
+
+Há os endpoints secundários para gerenciamento de funcionário, caso queira atualizar, visualizar suas informações ou deletar.
+
+----
+
+## Como rodar localmente
+
+### **1. Pré-requisitos**
+  
+Antes de começar, certifique-se de ter as seguintes ferramentas instaladas:
+
+  - Visual Studio ou Visual Studio Code
+  - .NET SDK
+  - SQL Server
+  - SQL Server Management Studio (SSMS) ou outra ferramenta para gerenciar o banco de dados SQL Server
+
+### **2. Clone o repositório**
+
+`https://github.com/mylenamelsilva/contracheque-api.git` 
+
+### **3. Configure o banco de dados**
+
+- Como a API não usa migrations, será necessário executar o script SQL manualmente, com base no que foi descrito anteriormente, para configurar o banco de dados.
+
+### **4. Configure o secrets**
+
+A API usa o [Secret Manager](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-7.0&tabs=windows) para armazenar as credenciais do banco de dados.
+
+- Vá para o diretório do projeto
+- Inicie a configuração do user-secrets: `dotnet user-secrets init`
+  *   Você pode ver o id criado no arquivo `.csproj`.
+  *   Ex: `<UserSecretsId>79a3edd0-2092-40a2-a04d-dcb46d5ca9ed</UserSecretsId>`
+- Adicione a chave e o valor do secret do banco de dados.
+  * Ex: `dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Server=xxx;Database=yyy;User Id=zzz;Password=bbb;"`
+  * Nota: No Windows, use `:` como separador. No Linux, substitua `:` por `__`.      
+
+### **5. Rode a aplicação**
+
+- Restaure as dependências do projeto: `dotnet restore`
+- Compile o projeto: `dotnet build`
+- Execute a API: `dotnet run`
+- Abra o navegador e acesse a documentação Swagger: `https://localhost:7281/swagger/` 
