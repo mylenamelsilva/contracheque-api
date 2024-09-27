@@ -2,7 +2,7 @@
 
 A API permite visualizar o extrato de pagamento mensal de um funcionário, incluindo salários, descontos e lançamentos financeiros.
 
-Você pode ver o funcionamento da API [clicando aqui](https://contracheque-app.azurewebsites.net/swagger)
+Você pode ver o funcionamento da API <a href="https://contracheque-app.azurewebsites.net/swagger" target="_blank">clicando aqui.</a>
 
 ![Imagem da documentação da API no Swagger](https://github.com/user-attachments/assets/b61ce38c-7ade-439e-aa17-7f14821f7932)
 
