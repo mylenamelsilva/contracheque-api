@@ -51,7 +51,7 @@ namespace Business.Users
 
             var resultadoInsert = _userRepository.CriarFuncionario(usuario);
 
-            return resultadoInsert == 1 ? Resultado.Sucesso("Funcionário criado.", resultadoInsert) : Resultado.Falha("Funcionário não criado.", resultadoInsert);
+            return resultadoInsert == 0 ? Resultado.Falha("Funcionário não criado.", resultadoInsert) : Resultado.Sucesso("Funcionário criado.", resultadoInsert);
         }
 
         public Resultado MostrarFuncionario(int id)
