@@ -1,6 +1,7 @@
 ﻿using Business.Users.Interfaces;
 using Business.Users.Model;
 using Business.Users.Records;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
@@ -87,7 +88,8 @@ public class FuncionarioRepository : IFuncionarioRepository
                                     ,@DataAdmissao
                                     ,@DescontoPlanoSaude
                                     ,@DescontoPlanoDental
-                                    ,@DescontoValeTransporte)
+                                    ,@DescontoValeTransporte);
+                                SELECT SCOPE_IDENTITY()
          ";
 
 
@@ -114,15 +116,16 @@ public class FuncionarioRepository : IFuncionarioRepository
             command.Parameters.AddWithValue("@DescontoPlanoDental", req.DescontoPlanoDental);
             command.Parameters.AddWithValue("@DescontoValeTransporte", req.DescontoValeTransporte);
 
-            var linhaAfetada = command.ExecuteNonQuery();
+            var resultadoInsert = command.ExecuteScalar();
 
-            if (linhaAfetada != 1) { 
+            if (resultadoInsert == DBNull.Value) { 
                 transaction.Rollback();
-                return linhaAfetada;
+                return 0;
             }
 
+            var id = Convert.ToInt32(resultadoInsert);
             transaction.Commit();
-            return linhaAfetada;
+            return id;
         }
     }
 
